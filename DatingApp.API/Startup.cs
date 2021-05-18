@@ -13,7 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-
+using DatingApp.API.Data.Intefaces;
+using DatingApp.API.Data.Repositories;
 
 namespace DatingApp.API
 {
@@ -37,6 +38,8 @@ namespace DatingApp.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DatingApp.API", Version = "v1" });
             });
+            services.AddCors();
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
         }
 
@@ -51,7 +54,7 @@ namespace DatingApp.API
             }
 
            // app.UseHttpsRedirection();
-
+            app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
 
            // app.UseAuthorization();
